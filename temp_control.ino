@@ -22,12 +22,17 @@
 
 #include <Adafruit_MAX31856.h>
 
+
+#define PIN_HEATER_1 9
+#define PIN_HEATER_2 8
+
 // TODO: USE THE HARDWARE SPI
 
 // Use software SPI: CS, DI, DO, CLK
 Adafruit_MAX31856 maxthermo = Adafruit_MAX31856(10, 11, 12, 13);
 // use hardware SPI, just pass in the CS pin
 //Adafruit_MAX31856 maxthermo = Adafruit_MAX31856(10);
+
 
 /**
  * Instantiates Thermocouple object
@@ -37,7 +42,7 @@ void setupThermo() {
     maxthermo.begin();
     maxthermo.setThermocoupleType(MAX31856_TCTYPE_K);
     
-    #IFDEF      USE_SERIAL
+    #ifdef      USE_SERIAL
     Serial.print("Thermocouple type: ");
     switch (maxthermo.getThermocoupleType() ) {
         case MAX31856_TCTYPE_B: Serial.println("B Type"); break;
@@ -52,7 +57,7 @@ void setupThermo() {
         case MAX31856_VMODE_G32: Serial.println("Voltage x8 Gain mode"); break;
         default: Serial.println("Unknown"); break;
     }  
-    #ENDIF
+    #endif
 }
 
 
@@ -77,7 +82,7 @@ float getThermoBcg() {
  */
 void checkThermoFlt() {
   uint8_t fault = maxthermo.readFault();
-  #IFDEF        USE_SERIAL
+  #ifdef        USE_SERIAL
   if (fault) {
     if (fault & MAX31856_FAULT_CJRANGE) Serial.println("Cold Junction Range Fault");
     if (fault & MAX31856_FAULT_TCRANGE) Serial.println("Thermocouple Range Fault");
@@ -88,5 +93,23 @@ void checkThermoFlt() {
     if (fault & MAX31856_FAULT_OVUV)    Serial.println("Over/Under Voltage Fault");
     if (fault & MAX31856_FAULT_OPEN)    Serial.println("Thermocouple Open Fault");
   }
-  #ENDIF
+  #endif
+}
+
+
+void setupHeaters() {
+    pinMode(PIN_HEATER_1, OUTPUT);
+    pinMode(PIN_HEATER_2, OUTPUT);
+
+    // write HIGH initially to turn heaters off
+    digitalWrite(PIN_HEATER_1, HIGH);
+    digitalWrite(PIN_HEATER_2, HIGH);
+}
+
+void setHeater1(bool on) {
+    digitalWrite(PIN_HEATER_1, !on);
+}
+
+void setHeater2(bool on) {
+    digitalWrite(PIN_HEATER_2, !on);
 }
