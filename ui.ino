@@ -77,16 +77,20 @@ void showIdle(String *modes, int nModes, int selectedMode, int scrollPos) {
 
     for (int i = scrollPos; i < nModes; i++) {
         if (i == selectedMode) {
+            // inverted colors
             display.setTextColor(BLACK, WHITE);
         } else {
+            // normal colors
             display.setTextColor(WHITE);
         }
 
         display.print(modes[i]);
         
-        for (int i = 0; i < WIDTH_CHARS - modes[i].length(); i++) {
-            display.write(' ');
+        // pad with spaces
+        for (int j = 0; j < WIDTH_CHARS - modes[i].length(); j++) {
+            display.print(" ");
         }
+
         display.println();
     }
 

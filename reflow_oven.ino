@@ -1,4 +1,4 @@
-#define N_MODES 5
+#define N_MODES 8
 
 bool running = false;
 unsigned long start_time = 0;
@@ -7,11 +7,14 @@ int selectedMode = 0;
 int scrollPos = 0;
 
 String modes[] = {
-    "Start",
-    "Test",
-    "Demo",
-    "Mode 1",
-    "Mode 2"
+    "Mode1",
+    "Mode2",
+    "Mode3",
+    "Mode4",
+    "Mode5",
+    "Mode6",
+    "Mode7",
+    "Mode8",
 };
 
 void setup() {
